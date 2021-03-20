@@ -1,0 +1,22 @@
+<h2>Texture Set Creator</h2>
+
+<section>
+    <label>
+        <span class="input-label"
+            >Text added to the created variants' full names. Use $variant to
+            refer to variant name.</span
+        >
+        <input
+            type="text"
+            ng-model="settings.textureSetCreator.variantNameFormat"
+            ng-trim="false"
+        />
+    </label>
+    <div>
+        <span class="input-label">Variant name will be added as</span>
+        <select
+            ng-model="settings.textureSetCreator.variantNamePosition"
+            ng-options="position for position in variantPositions"
+        ></select>
+    </div>
+</section>

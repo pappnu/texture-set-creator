@@ -1,0 +1,47 @@
+{
+    "type": "array",
+    "items": {
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "searchTerm": {
+                "type": "string"
+            },
+            "variants": {
+                "type": "array",
+                "items": {
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "textures": {
+                            "type": "array",
+                            "properties": {
+                                "original": {
+                                    "type": "string",
+                                    "new": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "original",
+                                "new"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "textures"
+                    ]
+                }
+            }
+        },
+        "required": [
+            "name",
+            "searchTerm",
+            "variants"
+        ]
+    }
+}

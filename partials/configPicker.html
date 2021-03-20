@@ -1,0 +1,28 @@
+<div class="modal-container" unfocus-modal>
+    <div class="modal">
+        <div class="close-modal" ng-click="$emit('closeModal')"></div>
+
+        <h2>Texture Set Creator</h2>
+
+        <h4>Select config:</h4>
+        <div>
+            <select
+                ng-model="configData.selected"
+                ng-options="item as item.label for item in configData.options track by item.id"
+                title="Select config."
+            ></select>
+            <span
+                class="fa fa-folder-open-o"
+                ng-click="selectFile()"
+                title="Manage configs."
+            ></span>
+        </div>
+
+        <div class="primary-actions">
+            <button class="action-btn" ng-click="apply()">OK</button>
+            <button class="action-btn negative" ng-click="$emit('closeModal')">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
