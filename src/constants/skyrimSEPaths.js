@@ -2,7 +2,6 @@ module.exports = {
     modelPaths: [
         {
             recordTypes: [], // default
-            replacementMethod: 'texture-set',
             references: [],
             paths: [
                 {
@@ -13,7 +12,6 @@ module.exports = {
         },
         {
             recordTypes: ['BOOK'], // book
-            replacementMethod: 'texture-set',
             references: [{ path: 'INAM' }],
             paths: [
                 {
@@ -24,7 +22,6 @@ module.exports = {
         },
         {
             recordTypes: ['FLOR', 'TREE'], // flora, tree
-            replacementMethod: 'texture-set',
             references: [{ path: 'PFIG' }],
             paths: [
                 {
@@ -35,7 +32,6 @@ module.exports = {
         },
         {
             recordTypes: ['SCRL', 'SPEL'], // scroll, spell
-            replacementMethod: 'texture-set',
             references: [{ path: 'MDOB' }],
             paths: [
                 {
@@ -46,7 +42,6 @@ module.exports = {
         },
         {
             recordTypes: ['WEAP'], // weapon
-            replacementMethod: 'texture-set',
             references: [{ path: 'WNAM' }],
             paths: [
                 {
@@ -57,7 +52,6 @@ module.exports = {
         },
         {
             recordTypes: ['ARMO'], // armor
-            replacementMethod: 'texture-set',
             references: [{ path: 'Armature' }],
             paths: [
                 {
@@ -72,7 +66,6 @@ module.exports = {
         },
         {
             recordTypes: ['ARMA'], // armor Addon
-            replacementMethod: 'texture-set',
             references: [{ path: 'ONAM' }],
             paths: [
                 {

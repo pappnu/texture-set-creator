@@ -2,7 +2,6 @@ module.exports = {
     modelPaths: [
         {
             recordTypes: [], // default
-            replacementMethod: 'texture-set',
             references: [],
             paths: [
                 {
@@ -13,7 +12,6 @@ module.exports = {
         },
         {
             recordTypes: ['AMMO'], // ammunition
-            replacementMethod: 'texture-set',
             references: [
                 { path: 'DAT2 - Data 2\\Projectile' },
                 { path: 'DAT2 - Data 2\\Consumed Ammo' },
@@ -27,7 +25,6 @@ module.exports = {
         },
         {
             recordTypes: ['WEAP'], // weapon
-            replacementMethod: 'texture-set',
             references: [
                 { path: 'DNAM\\Projectile' },
                 {
@@ -106,7 +103,6 @@ module.exports = {
         },
         {
             recordTypes: ['ARMO'], // armor
-            replacementMethod: 'texture-set',
             references: [],
             paths: [
                 {
@@ -129,7 +125,6 @@ module.exports = {
         },
         {
             recordTypes: ['ARMA'], // armor Addon
-            replacementMethod: 'texture-set',
             references: [],
             paths: [
                 {
@@ -152,7 +147,6 @@ module.exports = {
         },
         {
             recordTypes: ['SCOL'], // static collection
-            replacementMethod: 'texture-set',
             references: [{ path: 'Parts', subPaths: [{ path: 'ONAM' }] }],
             paths: [
                 {
