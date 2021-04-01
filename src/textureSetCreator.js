@@ -29,9 +29,17 @@ module.exports = class textureSetCreator {
         this.gamePath = this.xelib.GetGamePath(this.gameModeIndex);
         this.meshesPath = path.join(this.gamePath, 'data', 'meshes');
 
-        this.gameModelRecordPaths = gameSpecificPaths[this.gameMode].modelPaths;
-        this.textureIndexMapping =
-            gameSpecificPaths[this.gameMode].textureIndexMapping;
+        if (gameSpecificPaths.hasOwnProperty(this.gameMode)) {
+            this.gameModelRecordPaths =
+                gameSpecificPaths[this.gameMode].modelPaths;
+            this.textureIndexMapping =
+                gameSpecificPaths[this.gameMode].textureIndexMapping;
+        } else {
+            throw new Error(
+                'Texture Set Creator is not compatible with ' +
+                    this.xelib.GetGlobal('AppName')
+            );
+        }
     }
 
     createAndSetTextureSets(sets, records) {
@@ -39,7 +47,7 @@ module.exports = class textureSetCreator {
 
         let textureSetTemplates = this.formTemplates(sets, records);
 
-        this.logger.log(JSON.stringify(textureSetTemplates, null, 2));
+        //this.logger.log(JSON.stringify(textureSetTemplates, null, 2));
 
         let txSetsAndRecords = this.setTextureSets(textureSetTemplates);
 
@@ -108,6 +116,13 @@ module.exports = class textureSetCreator {
             if (nifPath) {
                 nifPath = path.join(this.meshesPath, nifPath);
                 let shapes = nifTexturesReader.read(nifPath);
+
+                shapes.sort((a, b) => a.index - b.index);
+                let idx = 0;
+                shapes = shapes.map((item) => {
+                    item.index = idx++;
+                    return item;
+                });
 
                 for (let variantConfig of recordConfig.variants) {
                     let modelConfig = {
@@ -420,11 +435,6 @@ module.exports = class textureSetCreator {
         let setTextureSetNumbers = [];
         for (let txSet of textureSets) {
             let txSetName = this.xelib.EditorID(txSet);
-            this.logger.log(txSetName);
-            this.logger.log(setName + '_' + variant + '_');
-            this.logger.log(
-                txSetName.contains(setName + '_' + variant + '_').toString()
-            );
             if (txSetName.contains(setName + '_' + variant + '_')) {
                 let number = parseInt(
                     txSetName.split(setName + '_' + variant + '_')[1],
@@ -439,7 +449,6 @@ module.exports = class textureSetCreator {
             setTextureSetNumbers.sort((a, b) => {
                 return b - a;
             });
-            this.logger.log(JSON.stringify(setTextureSetNumbers, null, 2));
             return setTextureSetNumbers[0] + 1;
         }
 

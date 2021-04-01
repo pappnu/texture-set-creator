@@ -28,12 +28,12 @@ new records to show up.
 Make sure that the models that should be processed are available as loose files.
 Reading from archives isn't currently supported.
 
-The configs are JSON files and they should conform to the following JSON format:
+The configs are JSON files and they should conform to the following format:
 ```
 [
     {
         "name": "name of the set",
-        "searchTerm": "used to search records",
+        "searchTerm": "used to limit applicable records",
         "variants": [
             {
                 "name": "Variant name",
