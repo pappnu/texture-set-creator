@@ -185,12 +185,21 @@ module.exports = class textureSetCreator {
                                 }
 
                                 if (replacement) {
-                                    replacementConfig.path = path.join(
-                                        originalDir,
-                                        path
-                                            .normalize(replacement.new)
-                                            .toLowerCase()
+                                    let parsedReplacement = path.parse(
+                                        replacement.new
                                     );
+                                    if (parsedReplacement.dir) {
+                                        replacementConfig.path = path
+                                            .normalize(replacement.new)
+                                            .toLowerCase();
+                                    } else {
+                                        replacementConfig.path = path.join(
+                                            originalDir,
+                                            path
+                                                .normalize(replacement.new)
+                                                .toLowerCase()
+                                        );
+                                    }
                                 } else if (shape.textures[key]) {
                                     replacementConfig.path = path.join(
                                         originalDir,
