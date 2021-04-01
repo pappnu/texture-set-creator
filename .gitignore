@@ -2,4 +2,5 @@ node_modules/
 .idea/
 *.zip
 dist/
-configs/*
+configs/
+tools/

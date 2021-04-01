@@ -69,16 +69,14 @@ module.exports = class textureSetCreator {
                         );
                     }
 
-                    if (
-                        this.xelib.EditorID(record).contains(set['searchTerm'])
-                    ) {
+                    if (this.xelib.EditorID(record).contains(set.searchTerm)) {
                         let recordTextureSets = this.formTextureSets(
                             record,
                             modelPaths.paths,
-                            set['variants']
+                            set.variants
                         );
-                        if (recordTextureSets['variants'].length) {
-                            recordSet['records'].push(recordTextureSets);
+                        if (recordTextureSets.variants.length) {
+                            recordSet.records.push(recordTextureSets);
                         }
                     }
                 }
@@ -98,11 +96,11 @@ module.exports = class textureSetCreator {
 
         for (let variant of variants) {
             let variantConfig = {
-                name: variant['name'],
+                name: variant.name,
                 models: [],
             };
 
-            recordConfig['variants'].push(variantConfig);
+            recordConfig.variants.push(variantConfig);
         }
 
         for (let model of modelPaths) {
@@ -111,9 +109,9 @@ module.exports = class textureSetCreator {
                 nifPath = path.join(this.meshesPath, nifPath);
                 let shapes = nifTexturesReader.read(nifPath);
 
-                for (let variantConfig of recordConfig['variants']) {
+                for (let variantConfig of recordConfig.variants) {
                     let modelConfig = {
-                        altTexturesPath: model['altTextures'],
+                        altTexturesPath: model.altTextures,
                         shapes: [],
                     };
 
@@ -190,12 +188,12 @@ module.exports = class textureSetCreator {
                                 shapeConfig.textures.push(replacementConfig);
                             }
 
-                            modelConfig['shapes'].push(shapeConfig);
+                            modelConfig.shapes.push(shapeConfig);
                         }
                     }
 
-                    if (modelConfig['shapes'].length) {
-                        variantConfig['models'].push(modelConfig);
+                    if (modelConfig.shapes.length) {
+                        variantConfig.models.push(modelConfig);
                     }
                 }
             }
@@ -213,11 +211,11 @@ module.exports = class textureSetCreator {
         let createdRecords = [];
 
         for (let recordSet of textureSetTemplates) {
-            for (let record of recordSet['records']) {
-                let recordElement = record['record'];
+            for (let record of recordSet.records) {
+                let recordElement = record.record;
                 let plugin = this.xelib.GetElementFile(recordElement);
 
-                for (let variant of record['variants']) {
+                for (let variant of record.variants) {
                     let counter = -1;
 
                     let newRecord = this.xelib.CopyElement(
@@ -256,10 +254,10 @@ module.exports = class textureSetCreator {
                         this.xelib.SetValue(newRecord, 'FULL', newName);
                     }
 
-                    for (let model of variant['models']) {
+                    for (let model of variant.models) {
                         let altTexturesElement = this.xelib.AddElement(
                             newRecord,
-                            model['altTexturesPath']
+                            model.altTexturesPath
                         );
                         this.xelib.SetValue(altTexturesElement, '', '');
                         while (
@@ -278,7 +276,7 @@ module.exports = class textureSetCreator {
                             );
                         }
 
-                        for (let shape of model['shapes']) {
+                        for (let shape of model.shapes) {
                             let altTexShape = this.xelib.AddArrayItem(
                                 altTexturesElement,
                                 '',
@@ -289,7 +287,7 @@ module.exports = class textureSetCreator {
                             this.xelib.AddElementValue(
                                 altTexShape,
                                 '3D Name',
-                                shape['name']
+                                shape.name
                             );
                             this.xelib.AddElementValue(
                                 altTexShape,
@@ -310,7 +308,7 @@ module.exports = class textureSetCreator {
                                 );
                                 //let texSetElement = findTextureSet(shape["textures"], createdTextureSets);
                                 texSetElement = this.findTextureSet(
-                                    shape['textures'],
+                                    shape.textures,
                                     texSetElements
                                 );
                             }
@@ -319,17 +317,17 @@ module.exports = class textureSetCreator {
                                 if (counter < 0) {
                                     counter = this.initCounter(
                                         texSetElements,
-                                        recordSet['name'],
-                                        variant['name']
+                                        recordSet.name,
+                                        variant.name
                                     );
                                 }
 
                                 texSetElement = this.createTextureSet(
                                     plugin,
-                                    shape['textures'],
-                                    recordSet['name'] +
+                                    shape.textures,
+                                    recordSet.name +
                                         '_' +
-                                        variant['name'] +
+                                        variant.name +
                                         '_' +
                                         counter
                                 );
@@ -357,7 +355,7 @@ module.exports = class textureSetCreator {
             let match = false;
             for (let texTypeKey in this.textureIndexMapping) {
                 let texture = textures.find(
-                    (tex) => tex['index'] + '' === texTypeKey
+                    (tex) => tex.index + '' === texTypeKey
                 );
                 if (!texture) {
                     texture = '';
@@ -366,9 +364,9 @@ module.exports = class textureSetCreator {
                     texturesElement,
                     this.textureIndexMapping[texTypeKey]
                 );
-                if (texture['path'] && existingTexPath) {
+                if (texture.path && existingTexPath) {
                     if (
-                        !texture['path'].localeCompare(
+                        !texture.path.localeCompare(
                             existingTexPath,
                             undefined,
                             {
@@ -381,7 +379,7 @@ module.exports = class textureSetCreator {
                         match = false;
                         break;
                     }
-                } else if (!texture['path'] && !existingTexPath) {
+                } else if (!texture.path && !existingTexPath) {
                     match = true;
                 } else {
                     match = false;
@@ -424,7 +422,9 @@ module.exports = class textureSetCreator {
             let txSetName = this.xelib.EditorID(txSet);
             this.logger.log(txSetName);
             this.logger.log(setName + '_' + variant + '_');
-            this.logger.log(txSetName.contains(setName + '_' + variant + '_').toString());
+            this.logger.log(
+                txSetName.contains(setName + '_' + variant + '_').toString()
+            );
             if (txSetName.contains(setName + '_' + variant + '_')) {
                 let number = parseInt(
                     txSetName.split(setName + '_' + variant + '_')[1],
@@ -442,7 +442,7 @@ module.exports = class textureSetCreator {
             this.logger.log(JSON.stringify(setTextureSetNumbers, null, 2));
             return setTextureSetNumbers[0] + 1;
         }
-        
+
         return 0;
     }
 
